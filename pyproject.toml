@@ -1,0 +1,18 @@
+[project]
+name = "vacanciestracker"
+version = "0.1.0"
+description = "приложение для работы с вакансиями: отслеживание, добавление и удаления."
+authors = [
+    {name = "aaafeig",email = "geroy.ozhog08@mail.ru"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "black (>=25.1.0,<26.0.0)",
+    "flake8 (>=7.2.0,<8.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
