@@ -1,4 +1,4 @@
-from src.vacancy import CreateVacancy
+from src.vacancy import Vacancy
 
 def main():
     name = input('Название вакансии: ')
@@ -7,7 +7,7 @@ def main():
     salary = {"salary": {"from": user_input_sal, "currency": user_input_cur}}
     user_input_des = input('Опишите основные свойства вакансии: ')
     description = {"snippet": {"responsibility": user_input_des}}
-    new_vacancy = CreateVacancy(name, salary, description)
+    new_vacancy = Vacancy(name, salary, description)
 
     print(new_vacancy.name)
     print(new_vacancy.salary)
