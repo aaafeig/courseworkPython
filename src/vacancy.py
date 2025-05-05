@@ -1,14 +1,6 @@
 import json
-import secrets
-from .abstract_classes import BaseVacancy, BaseApi
 
-
-class Api(BaseApi):
-
-    def __init__(self, api):
-        self.api = api
-        super().__init__()
-
+from .abstract_classes import BaseVacancy, BaseJsonHandler
 
 class Vacancy(BaseVacancy):
 
@@ -21,45 +13,89 @@ class Vacancy(BaseVacancy):
         super().__init__()
         if not name:
             raise ValueError("Название вакансии обязательно")
-        if salary and salary.get("from") and salary["from"] < 0:
+        salary_from = salary.get("from")
+        if salary_from is not None and salary_from < 0:
             raise ValueError("Зарплата не может быть отрицательной")
 
-        self.name = name
-        self.salary = salary["salary"]["from"]
-        self.currency = salary["salary"]["currency"]
-        self.description = description.get("snippet", {}).get(
+        self.__id = "-1"
+        self.__name = name
+        self.__salary = salary["salary"]["from"]
+        self.__currency = salary["salary"]["currency"]
+        self.__description = description.get("snippet", {}).get(
             "responsibility", "Нет описания"
         )
-        self.dictForJson = {
-            "name": self.name,
-            "salary": {"from": self.salary, "currency": self.currency},
-            "snippet": {"responsibility": self.description},
+        self.__dict_for_json = {
+            "id": self.id,
+            "name": self.__name,
+            "salary": {"from": self.__salary, "currency": self.__currency},
+            "snippet": {"responsibility": self.__description},
         }
 
+    @property
+    def dict_for_json(self):
+        return self.__dict_for_json
 
-class JsonSaver:
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def salary(self):
+        return self.__salary
+
+    @property
+    def currency(self):
+        return self.__currency
+
+    @property
+    def description(self):
+        return self.__description
+
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, new_id):
+        self.__id = new_id
+
+    def __str__(self):
+        return (
+            f"ID: {self.id}\n"
+            f"Название: {self.name}\n"
+            f"Зарплата: {self.salary} {self.currency}\n"
+            f"Описание: {self.description}\n"
+            "----------------------------------------"
+        )
+
+
+
+class JsonHandler(BaseJsonHandler):
 
     def __init__(self, path_json):
-        self.path_json = path_json
-        with open(self.path_json, "r", encoding="utf-8") as file:
-            self.data = json.load(file)
+        self.__path_json = path_json
+        with open(self.__path_json, "r", encoding="utf-8") as file:
+            self.__data = json.load(file)
+        super().__init__()
 
     def add_vacancy(self, vacancy: Vacancy):
-        self.data.append(vacancy.dictForJson)
+        list_id = [int(i.get('id', "0")) for i in self.__data]
+        vacancy.id = str(max(list_id) + 1)
+        self.__data.append(vacancy.dict_for_json)
         self._save_to_file()
-        print(f"Вакансия '{vacancy.name}' была добавлена")
+        print(f"Вакансия '{vacancy}'")
 
     def _save_to_file(self):
-        with open(self.path_json, "w", encoding="utf-8") as file:
-            json.dump(self.data, file, ensure_ascii=False, indent=2)
+        with open(self.__path_json, "w", encoding="utf-8") as file:
+            json.dump(self.__data, file, ensure_ascii=False, indent=2)
 
-    def delete_vacancy(self, del_vacancy: str):
-        self.data = [v for v in self.data if v["name"] != del_vacancy]
+    def delete_vacancy(self, id_del: str):
+        self.__data = [v for v in self.__data if v["id"] != id_del]
         self._save_to_file()
-        print(f"Вакансия '{del_vacancy}' была удаленна")
+        print(f"Вакансия '{id_del}' была удаленна")
 
     def show_vacancy(self):
-        for vacancy in self.data:
+        for vacancy in self.__data:
             print(
                 f"ID: {vacancy.get('id', 'N/A')}\n"
                 f"Название: {vacancy.get('name', 'N/A')}\n"
@@ -69,30 +105,34 @@ class JsonSaver:
             )
 
     def top_n(self, n: int):
-        print(sorted(
-            [v for v in self.data if v],
-            key=lambda x: (
-                x.get('salary', {}).get('from', 0)
-                if x and isinstance(x, dict) and isinstance(x.get('salary'), dict)
-                else 0
-            ),
+        top_vacancies = sorted(
+            [v for v in self.__data if isinstance(v, dict) and isinstance(v.get('salary'), dict)],
+            key=lambda x: x['salary'].get('from', 0) or 0,
             reverse=True
-        )[:n])
+        )[:n]
 
-    def search_vacancy_name(self, search_word):
-        for vacancy in self.data:
+        for vacancy in top_vacancies:
+            print(
+                f"ID: {vacancy.get('id', 'N/A')}\n"
+                f"Название: {vacancy.get('name', 'N/A')}\n"
+                f"Зарплата: {vacancy.get('salary')}\n"
+                f"Описание: {vacancy.get('snippet', {}).get('responsibility', 'N/A')}\n"
+                "----------------------------------------"
+            )
+
+    def search_vacancy(self, search_words: list):
+        for vacancy in self.__data:
             name = vacancy.get("name", "")
             snippet = vacancy.get("snippet", {})
-            responsibility = snippet.get("responsibility", "")
+            responsibility = snippet.get("responsibility", 1)
 
 
-            if (name and search_word.lower() in name.lower()) or \
-                    (responsibility and search_word.lower() in responsibility.lower()):
+            if any(word.lower() in name or word.lower() in responsibility for word in search_words):
                 print(
                     f"ID: {vacancy.get('id', 'N/A')}\n"
-                    f"Название: {name}\n"
-                    f"Зарплата: {vacancy.get('salary', 'N/A')}\n"
-                    f"Описание: {responsibility}\n"
+                    f"Название: {vacancy.get('name', 'N/A')}\n"
+                    f"Зарплата: {vacancy.get('salary')}\n"
+                    f"Описание: {vacancy.get('snippet', {}).get('responsibility', 'N/A')}\n"
                     "----------------------------------------"
                 )
 

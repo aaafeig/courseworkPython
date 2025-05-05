@@ -1,34 +1,38 @@
-from src.vacancy import Vacancy, JsonSaver
+from src.vacancy import Vacancy, JsonHandler
+from src.API import HH
 
 def main():
-    saver = JsonSaver("data/example.json")
+    data = "data/file_worker.json"
+    hh_parser(data)
+    handler = JsonHandler(data)
     while True:
         user_choice = int(input("""Выберите действие:
         1. Просмотр анкет
         2. Поиск анкеты
-        3. показать топ N вакансий с зарплатами
+        3. Показать топ N вакансий с зарплатами
         4. Создание анкеты
         5. Удаление анкеты
         6. Закрыть\n"""))
 
         if user_choice == 1:
-            saver.show_vacancy()
+            handler.show_vacancy()
         elif user_choice == 2:
-            user_search = input("Введите название вакансии ")
-            saver.search_vacancy_name(user_search)
+            user_search = input("Введите ключевые слова для поиска: ").split()
+            handler.search_vacancy(user_search)
         elif user_choice == 3:
             user_number = int(input("Напишите количество вакансий: "))
-            saver.top_n(user_number)
+            handler.top_n(user_number)
         elif user_choice == 4:
             vacancy = create_new_vacancy()
-            saver.add_vacancy(vacancy)
+            handler.add_vacancy(vacancy)
         elif user_choice == 5:
-            user_delete = input("Введите название вакансии для удаления ")
-            saver.delete_vacancy(user_delete)
+            user_delete = input("Укажите id вакансии для удаления: ")
+            handler.delete_vacancy(user_delete)
         elif user_choice == 6:
             break
         else:
             print("Введите правильное число")
+
 
 def create_new_vacancy() -> Vacancy:
     name = input('Название вакансии: ')
@@ -39,6 +43,13 @@ def create_new_vacancy() -> Vacancy:
     description = {"snippet": {"responsibility": user_input_des}}
     new_vacancy = Vacancy(name, salary, description)
     return new_vacancy
+
+
+def hh_parser(path_json: str) -> None:
+    parser = HH(path_json)
+    user_choice = input('Введите название вакансии: ')
+    parser.load_vacancies(user_choice)
+
 
 if __name__ == "__main__":
     main()
