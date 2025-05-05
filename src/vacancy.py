@@ -24,16 +24,6 @@ class Vacancy(BaseVacancy):
         self.__description = description.get("snippet", {}).get(
             "responsibility", "Нет описания"
         )
-        self.__dict_for_json = {
-            "id": self.id,
-            "name": self.__name,
-            "salary": {"from": self.__salary, "currency": self.__currency},
-            "snippet": {"responsibility": self.__description},
-        }
-
-    @property
-    def dict_for_json(self):
-        return self.__dict_for_json
 
     @property
     def name(self):
@@ -59,13 +49,22 @@ class Vacancy(BaseVacancy):
     def id(self, new_id):
         self.__id = new_id
 
+    @property
+    def _dict_for_json(self):
+        dict_for_json = {
+            "id": self.id,
+            "name": self.__name,
+            "salary": {"from": self.__salary, "currency": self.__currency},
+            "snippet": {"responsibility": self.__description},
+        }
+        return dict_for_json
+
     def __str__(self):
         return (
             f"ID: {self.id}\n"
             f"Название: {self.name}\n"
             f"Зарплата: {self.salary} {self.currency}\n"
             f"Описание: {self.description}\n"
-            "----------------------------------------"
         )
 
 
@@ -81,7 +80,7 @@ class JsonHandler(BaseJsonHandler):
     def add_vacancy(self, vacancy: Vacancy):
         list_id = [int(i.get('id', "0")) for i in self.__data]
         vacancy.id = str(max(list_id) + 1)
-        self.__data.append(vacancy.dict_for_json)
+        self.__data.append(vacancy._dict_for_json)
         self._save_to_file()
         print(f"Вакансия '{vacancy}'")
 
