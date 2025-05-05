@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 
+
 class BaseVacancy(ABC):
 
     @abstractmethod
     def __init__(self):
         pass
-
 
 
 class BaseJsonHandler(ABC):
@@ -31,7 +31,6 @@ class BaseJsonHandler(ABC):
         pass
 
 
-
 class Parser(ABC):
 
     def __init__(self, file_worker):
@@ -40,4 +39,3 @@ class Parser(ABC):
     @abstractmethod
     def load_vacancies(self, keyword):
         pass
-
