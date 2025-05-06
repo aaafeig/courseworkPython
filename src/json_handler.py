@@ -14,7 +14,7 @@ class JsonHandler(BaseJsonHandler):
 
     def add_vacancy(self, vacancy: Vacancy):
         list_id = [int(i.get("id", "0")) for i in self.__data]
-        vacancy.id = str(max(list_id) + 1)
+        vacancy.id = str(max(list_id, default=0) + 1)
         self.__data.append(vacancy.dict_for_json)
         self._save_to_file()
         Vacancy.my_vacancies_id.append(vacancy.id)
@@ -87,16 +87,21 @@ class JsonHandler(BaseJsonHandler):
     def edit_vacancy(self, id_v: str, edit_choice: int, edit: int or str):
         if id_v in Vacancy.my_vacancies_id:
             index = next((i for i, v in enumerate(self.__data) if v["id"] == id_v), None)
+            my_index = Vacancy.my_vacancies_id.index(id_v)
             if index is not None:
                 edited_vacancy = self.__data[index].copy()
                 if edit_choice == 1:
                     edited_vacancy["name"] = edit
+                    Vacancy.my_vacancies[my_index].name = edit
                 elif edit_choice == 2:
                     edited_vacancy["salary"]["from"] = edit
+                    Vacancy.my_vacancies[my_index].salary = edit
                 elif edit_choice == 3:
-                    edited_vacancy["name"] = edit
+                    edited_vacancy["salary"]["currency"] = edit
+                    Vacancy.my_vacancies[my_index].currency = edit
                 elif edit_choice == 4:
-                    edited_vacancy["name"] = edit
+                    edited_vacancy["snippet"]["responsibility"] = edit
+                    Vacancy.my_vacancies[my_index].description = edit
                 else:
                     print("Выберите корректное действие")
 

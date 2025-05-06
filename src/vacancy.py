@@ -1,7 +1,4 @@
-import json
-from locale import currency
-
-from .abstract_classes import BaseVacancy, BaseJsonHandler
+from .abstract_classes import BaseVacancy
 
 
 class Vacancy(BaseVacancy):
@@ -31,17 +28,33 @@ class Vacancy(BaseVacancy):
     def name(self):
         return self.__name
 
+    @name.setter
+    def name(self, new_name):
+        self.__name = new_name
+
     @property
     def salary(self):
         return self.__salary
+
+    @salary.setter
+    def salary(self, new_salary):
+        self.__salary = new_salary
 
     @property
     def currency(self):
         return self.__currency
 
+    @currency.setter
+    def currency(self, new_currency):
+        self.__currency = new_currency
+
     @property
     def description(self):
         return self.__description
+
+    @description.setter
+    def description(self, new_description):
+        self.__description = new_description
 
     @property
     def id(self):
@@ -62,9 +75,7 @@ class Vacancy(BaseVacancy):
         return dict_for_json
 
     def __str__(self):
-        return (
-            f"ID: {self.id}\n"
-            f"Название: {self.name}\n"
-            f"Зарплата: {self.salary} {self.currency}\n"
-            f"Описание: {self.description}\n"
-        )
+        return f"""ID: {self.id}
+Название: {self.name}
+Зарплата: {self.salary} {self.currency}
+Описание: {self.description}"""

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vacanciestracker"
-version = "0.1.0"
+version = "1.0.0"
 description = "приложение для работы с вакансиями: отслеживание, добавление и удаления."
 authors = ["aaafeig <geroy.ozhog08@mail.ru>"]
 readme = "README.md"
@@ -12,6 +12,7 @@ packages = [
 python = ">=3.12"
 requests = "^2.32.3"
 pytest = "^8.3.5"
+pytest-cov = "^6.1.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
