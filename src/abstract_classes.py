@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from src.file_manager import FileManager
+
 
 class BaseVacancy(ABC):
 
@@ -10,25 +12,9 @@ class BaseVacancy(ABC):
 
 class BaseJsonHandler(ABC):
 
-    @abstractmethod
-    def __init__(self):
-        pass
-
-    @abstractmethod
-    def add_vacancy(self, vacancy):
-        pass
-
-    @abstractmethod
-    def delete_vacancy(self, name_del_vacancy):
-        pass
-
-    @abstractmethod
-    def top_n(self, n: int):
-        pass
-
-    @abstractmethod
-    def show_vacancy(self):
-        pass
+    def __init__(self, path_json):
+        self._path_json = path_json
+        self._data = FileManager.load_json(path_json)
 
 
 class Parser(ABC):

@@ -1,5 +1,6 @@
-from src.vacancy import Vacancy
 from src.json_handler import JsonHandler
+from src.printing_my_vacancies import PrintingMyVacancies
+from src.vacancy import Vacancy
 from src.API import HH
 
 data = "data/file_worker.json"
@@ -36,7 +37,7 @@ def user_interaction():
             user_number = int(input("Напишите количество вакансий: "))
             handler.top_n(user_number)
         elif user_choice == 4:
-            handler.my_vacancies()
+            PrintingMyVacancies.my_vacancies()
         elif user_choice == 5:
             vacancy = create_new_vacancy()
             handler.add_vacancy(vacancy)
