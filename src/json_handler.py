@@ -6,9 +6,10 @@ from .abstract_classes import BaseJsonHandler
 
 class JsonHandler(BaseJsonHandler):
 
-    def __init__(self, path_json):
+    def __init__(self, path_json='data/file_worker.json'):
         super().__init__(path_json)
-
+        self._path_json = path_json
+        self._data = FileManager.load_json(path_json)
         self.__saver = FileManager.save_json
         self.__printer = Utils.printing_vacancies
         self.__validate = Utils.validate_access

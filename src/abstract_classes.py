@@ -13,14 +13,12 @@ class BaseVacancy(ABC):
 class BaseJsonHandler(ABC):
 
     def __init__(self, path_json):
-        self._path_json = path_json
-        self._data = FileManager.load_json(path_json)
-
+        pass
 
 class Parser(ABC):
 
-    def __init__(self, file_worker):
-        self.file_worker = file_worker
+    def __init__(self):
+        pass
 
     @abstractmethod
     def load_vacancies(self, keyword):

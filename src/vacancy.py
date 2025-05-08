@@ -19,10 +19,10 @@ class Vacancy(BaseVacancy):
             raise ValueError("Зарплата не может быть отрицательной")
 
         self.__id = "-1"
-        self.__name = name
-        self.__salary = salary
-        self.__currency = currency
-        self.__description = description
+        self.name = name
+        self.salary = salary
+        self.currency = currency
+        self.description = description
 
     @property
     def name(self):
@@ -79,3 +79,5 @@ class Vacancy(BaseVacancy):
 Название: {self.name}
 Зарплата: {self.salary} {self.currency}
 Описание: {self.description}"""
+
+
