@@ -29,7 +29,9 @@ poetry install
 
 **Vacancy** - класс для работы с вакансиями: изменением и созданием
 
-**ShowVacancies** - класс для работы с json файлом, в который записывал данные класс HH.
+**JsonHandler** - класс для работы с json файлом, в который записывал данные класс HH.
+
+**Facade** - класс-фасад для соединения всех классов.
 
 ****
 
@@ -46,8 +48,17 @@ poetry install
 
 ****
 
+##### Описание JsonHandler
 
-##### Описание ShowVacancies
+*Инициализация*
+
+Передается путь к json файлу типа **str**
+
+*Методы*
+
+**Гетеры** и **Сеттеры**.
+
+##### Описание Facade
 
 *Инициализация*
 
@@ -78,10 +89,12 @@ poetry install
 ```Name                        Stmts   Miss  Cover
 -----------------------------------------------
 tests\__init__.py               0      0   100%
-tests\conftest.py              16      0   100%
+tests\conftest.py              26      0   100%
 tests\test_api.py              10      0   100%
-tests\test_jsonhandler.py      32      0   100%
+tests\test_facade.py           12      0   100%
+tests\test_jsonhandler.py       3      0   100%
 tests\test_vacancy.py           9      0   100%
 -----------------------------------------------
-TOTAL                          67      0   100%
+TOTAL                          60      0   100%
+
 ```

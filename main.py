@@ -1,3 +1,4 @@
+from src.facade import Facade
 from src.json_handler import JsonHandler
 from src.printing_my_vacancies import PrintingMyVacancies
 from src.vacancy import Vacancy
@@ -5,6 +6,7 @@ from src.API import HH
 
 data = "data/file_worker.json"
 handler = JsonHandler(data)
+facade = Facade()
 
 
 def main():
@@ -29,23 +31,23 @@ def user_interaction():
         )
 
         if user_choice == 1:
-            handler.show_vacancy()
+            facade.show_vacancy()
         elif user_choice == 2:
             user_search = input("Введите ключевые слова для поиска: ").split()
-            handler.search_vacancy(user_search)
+            facade.search_vacancy(user_search)
         elif user_choice == 3:
             user_number = int(input("Напишите количество вакансий: "))
-            handler.top_n(user_number)
+            facade.top_n(user_number)
         elif user_choice == 4:
             PrintingMyVacancies.my_vacancies()
         elif user_choice == 5:
             vacancy = create_new_vacancy()
-            handler.add_vacancy(vacancy)
+            facade.add_vacancy(vacancy)
         elif user_choice == 6:
             edit_vacancy()
         elif user_choice == 7:
             user_delete = input("Укажите id вакансии для удаления: ")
-            handler.delete_vacancy(user_delete)
+            facade.delete_vacancy(user_delete)
         elif user_choice == 8:
             break
         else:
@@ -86,20 +88,20 @@ def edit_vacancy():
             if user_edit_choice == 1:
                 if not isinstance(user_edit, str):
                     raise ValueError("Название должно быть строкой")
-                handler.edit_vacancy(user_id, user_edit_choice, user_edit)
+                facade.edit_vacancy(user_id, user_edit_choice, user_edit)
             elif user_edit_choice == 2:
                 int(user_edit)
                 if not isinstance(int(user_edit), int):
                     raise ValueError("Зарплата должна быть числом")
-                handler.edit_vacancy(user_id, user_edit_choice, user_edit)
+                facade.edit_vacancy(user_id, user_edit_choice, user_edit)
             elif user_edit_choice == 3:
                 if not isinstance(user_edit, str):
                     raise ValueError("Название должно быть строкой")
-                handler.edit_vacancy(user_id, user_edit_choice, user_edit)
+                facade.edit_vacancy(user_id, user_edit_choice, user_edit)
             elif user_edit_choice == 4:
                 if not isinstance(user_edit, str):
                     raise ValueError("Название должно быть строкой")
-                handler.edit_vacancy(user_id, user_edit_choice, user_edit)
+                facade.edit_vacancy(user_id, user_edit_choice, user_edit)
         except (ValueError, TypeError):
             print("Ошибка ввода")
     else:

@@ -24,6 +24,31 @@ class Vacancy(BaseVacancy):
         self.__currency = currency
         self.__description = description
 
+    def __lt__(self, other):
+        if not isinstance(other, Vacancy):
+            return NotImplemented
+        return self.salary < other.salary
+
+    def __le__(self, other):
+        if not isinstance(other, Vacancy):
+            return NotImplemented
+        return self.salary <= other.salary
+
+    def __eq__(self, other):
+        if not isinstance(other, Vacancy):
+            return NotImplemented
+        return self.salary == other.salary
+
+    def __gt__(self, other):
+        if not isinstance(other, Vacancy):
+            return NotImplemented
+        return self.salary > other.salary
+
+    def __ge__(self, other):
+        if not isinstance(other, Vacancy):
+            return NotImplemented
+        return self.salary >= other.salary
+
     @property
     def name(self):
         return self.__name

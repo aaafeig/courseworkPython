@@ -1,7 +1,8 @@
-from unittest.mock import Mock
+from unittest.mock import Mock, patch, MagicMock
 
 import pytest
 
+from src.facade import Facade
 from src.json_handler import JsonHandler
 from src.vacancy import Vacancy
 
@@ -17,13 +18,16 @@ def vacancy_tested():
 
 
 @pytest.fixture
-def json_handler_fixture():
+def facade_fixture():
+    with patch("src.facade.JsonHandler") as MockJsonHandler:
+        mock_handler = MagicMock()
+        mock_handler.data = []
+        MockJsonHandler.return_value = mock_handler
+        return Facade(json_path="fake_path.json")
+
+@pytest.fixture
+def json_handler_tested():
     handler = JsonHandler.__new__(JsonHandler)
+    handler._path_json = "fake_file.json"
     handler._data = []
-    handler._path_json = "fake_path.json"
-    handler._JsonHandler__saver = Mock()
-    handler._JsonHandler__printer = Mock()
-    handler._JsonHandler__validate = Mock(return_value=True)
-    handler._JsonHandler__get_index = Mock(return_value=0)
-    handler._JsonHandler__get_my_index = Mock(return_value=0)
     return handler
