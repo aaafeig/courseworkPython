@@ -19,10 +19,10 @@ class Vacancy(BaseVacancy):
             raise ValueError("Зарплата не может быть отрицательной")
 
         self.__id = "-1"
-        self.__name = name
-        self.__salary = salary
-        self.__currency = currency
-        self.__description = description
+        self.name = name
+        self.salary = salary
+        self.currency = currency
+        self.description = description
 
     def __lt__(self, other):
         if not isinstance(other, Vacancy):
@@ -104,3 +104,5 @@ class Vacancy(BaseVacancy):
 Название: {self.name}
 Зарплата: {self.salary} {self.currency}
 Описание: {self.description}"""
+
+
