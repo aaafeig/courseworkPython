@@ -1,7 +1,6 @@
 from .utils import Utils
 from .vacancy import Vacancy
 from .file_manager import FileManager
-from .json_handler import JsonHandler
 
 
 class VacancyManager:
