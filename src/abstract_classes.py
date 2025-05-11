@@ -18,8 +18,8 @@ class BaseJsonHandler(ABC):
 
 class Parser(ABC):
 
-    def __init__(self, file_worker):
-        self.file_worker = file_worker
+    def __init__(self):
+        pass
 
     @abstractmethod
     def load_vacancies(self, keyword):

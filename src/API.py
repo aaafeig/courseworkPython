@@ -16,20 +16,20 @@ class HH(Parser):
     def _get_response(self, keyword: str):
         self.params["text"] = keyword
         self.params["page"] = 0
+        self.vacancies = []
 
         while self.params["page"] < 5:
-            self.response = requests.get(self.url, headers=self.headers, params=self.params)
-            if self.response.status_code != 200:
-                print(f"Ошибка при запросе: {self.response.status_code}")
+            response = requests.get(self.url, headers=self.headers, params=self.params)
+            if response.status_code != 200:
+                print(f"Ошибка при запросе: {response.status_code}")
                 break
+
+            data = response.json()
+            items = data.get("items", [])
+            self.vacancies.extend(items)
+            self.params["page"] += 1
 
     def load_vacancies(self, keyword: str):
         self._get_response(keyword)
-        vacancies = []
-
-        data = self.response.json()
-        items = data.get("items", [])
-        vacancies.extend(items)
-        self.params["page"] += 1
         with open(self.file_worker, "w", encoding="utf-8") as file:
-            json.dump(vacancies, file, ensure_ascii=False, indent=2)
+            json.dump(self.vacancies, file, ensure_ascii=False, indent=2)
