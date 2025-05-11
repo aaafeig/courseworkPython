@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 
-from src.file_manager import FileManager
-
 
 class BaseVacancy(ABC):
 

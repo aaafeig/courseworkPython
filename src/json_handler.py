@@ -1,6 +1,4 @@
 from .file_manager import FileManager
-from .utils import Utils
-from .vacancy import Vacancy
 from .abstract_classes import BaseJsonHandler
 
 

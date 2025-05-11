@@ -104,5 +104,3 @@ class Vacancy(BaseVacancy):
 Название: {self.name}
 Зарплата: {self.salary} {self.currency}
 Описание: {self.description}"""
-
-

@@ -1,4 +1,4 @@
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import patch, MagicMock
 
 import pytest
 
@@ -24,6 +24,7 @@ def facade_fixture():
         mock_handler.data = []
         MockJsonHandler.return_value = mock_handler
         return Facade(json_path="fake_path.json")
+
 
 @pytest.fixture
 def json_handler_tested():
