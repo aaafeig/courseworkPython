@@ -1,3 +1,4 @@
+from .file_manager import FileManager
 from .utils import Utils
 
 
@@ -7,6 +8,7 @@ class ShowingVacancies:
         self.__printer = Utils.printing_vacancies
 
     def show_vacancy(self):
+        self._data = FileManager.load_json("data/file_worker.json")
         for vacancy in self._data:
             self.__printer(vacancy)
 

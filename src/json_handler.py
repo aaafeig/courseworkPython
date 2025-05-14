@@ -13,6 +13,10 @@ class JsonHandler(BaseJsonHandler):
     def data(self) -> list[dict]:
         return self._data
 
+    @data.setter
+    def data(self, new_data):
+        self._data = new_data
+
     @property
     def path_json(self):
         return self._path_json

@@ -18,12 +18,12 @@ class VacancyManager:
         self.__saver(self._path_json, self._data)
         Vacancy.my_vacancies_id.append(vacancy.id)
         Vacancy.my_vacancies.append(vacancy)
-        print(f"Вакансия '{vacancy}'")
+        print(f"Вакансия '{vacancy}' была добавлена")
 
     def delete_vacancy(self, id_v: str):
         if self.__validate(id_v):
             index = self.__get_my_index(id_v)
-            self._data = [v for v in self._data if v["id"] != id_v]
+            self._data = [v for v in self._data if v.get("id") != id_v]
             self.__saver(self._path_json, self._data)
             del Vacancy.my_vacancies[index]
             print(f"Вакансия '{id_v}' была удаленна")
