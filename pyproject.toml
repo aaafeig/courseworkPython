@@ -1,18 +1,31 @@
-[project]
+[tool.poetry]
 name = "vacanciestracker"
-version = "0.1.0"
+version = "1.0.0"
 description = "приложение для работы с вакансиями: отслеживание, добавление и удаления."
-authors = [
-    {name = "aaafeig",email = "geroy.ozhog08@mail.ru"}
-]
+authors = ["aaafeig <geroy.ozhog08@mail.ru>"]
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "black (>=25.1.0,<26.0.0)",
-    "flake8 (>=7.2.0,<8.0.0)"
+packages = [
+    { include = "src" }
 ]
 
+[tool.poetry.dependencies]
+python = ">=3.12"
+requests = "^2.32.3"
+pytest = "^8.3.5"
+pytest-cov = "^6.1.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+flake8 = "^7.2.0"
+pytest = "^8.3.5"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 119
+exclude = ".git"
+
+[tool.isort]
+line-length = 119
